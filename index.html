@@ -57,7 +57,11 @@
         }
 
         #content.sidebar-open {
+
             margin-left: 270px;
+            transition: margin-left 0.3s;
+
+            margin-left: 290px;
         }
 
         /* Forms and Input Styles */
@@ -99,8 +103,8 @@
 
         /* Menu Button */
         #menu-btn {
-            position: fixed;
-            top: 20px;
+            position: fixed;            
+            top: 40px;
             left: 20px;
             z-index: 1100;
             background: #004080;
@@ -199,6 +203,20 @@
         .form-link a:hover {
             text-decoration: underline;
         }
+
+        #patient-search h2 {
+            margin-left: 40px;
+        }
+
+        h2 {
+            margin-left: 80px;
+        }
+
+
+
+        
+
+
     </style>
 </head>
 <body>
@@ -310,9 +328,25 @@
 
         // Utility Functions
         function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
-            document.getElementById('content').classList.toggle('sidebar-open');
+            const sidebar = document.getElementById('sidebar');
+            const menuBtn = document.getElementById('menu-btn');
+            sidebar.classList.toggle('open');
+            if (sidebar.classList.contains('open')) {
+                menuBtn.style.display = 'none';
+            } else {
+                menuBtn.style.display = 'block';
+            }
         }
+
+        // Hide sidebar when clicking outside
+        window.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const menuBtn = document.getElementById('menu-btn');
+            if (!sidebar.contains(event.target) && !menuBtn.contains(event.target)) {
+                sidebar.classList.remove('open');
+                menuBtn.style.display = 'block';
+            }
+        });
 
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(page => {
