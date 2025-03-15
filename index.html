@@ -220,7 +220,7 @@
     </style>
 </head>
 <body>
-    <button id="menu-btn" onclick="toggleSidebar()">☰ Menu</button>
+    <button id="menu-btn" onclick="toggleSidebar()">☰ Menu </button>
     
     <div id="user-info" style="display: none;">
         <span id="username-display"></span>
@@ -238,7 +238,7 @@
         <!-- Login Page -->
         <div id="login" class="page active">
             <div class="form-container">
-                <h2>Staff Login</h2>
+                <h2> Login</h2>
                 <form id="login-form">
                     <input type="text" id="login-username" placeholder="Username" required>
                     <input type="password" id="login-password" placeholder="Password" required>
@@ -251,7 +251,7 @@
         <!-- Sign Up Page -->
         <div id="signup" class="page">
             <div class="form-container">
-                <h2>Staff Sign Up</h2>
+                <h2> Sign Up</h2>
                 <form id="signup-form">
                     <input type="text" id="signup-fullname" placeholder="Full Name" required>
                     <input type="text" id="signup-username" placeholder="Username" required>
@@ -316,6 +316,12 @@
 
     <script>
         // Global Variables
+        const sidebar = document.getElementById('sidebar');
+        const menuBtn = document.getElementById('menu-btn');
+        let currentPageId;
+        showPage('login')
+            
+            
         let currentUser = null;
         let patients = {};
         const users = {
@@ -328,8 +334,7 @@
 
         // Utility Functions
         function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const menuBtn = document.getElementById('menu-btn');
+            
             sidebar.classList.toggle('open');
             if (sidebar.classList.contains('open')) {
                 menuBtn.style.display = 'none';
@@ -340,21 +345,31 @@
 
         // Hide sidebar when clicking outside
         window.addEventListener('click', function(event) {
-            const sidebar = document.getElementById('sidebar');
-            const menuBtn = document.getElementById('menu-btn');
+
             if (!sidebar.contains(event.target) && !menuBtn.contains(event.target)) {
-                sidebar.classList.remove('open');
-                menuBtn.style.display = 'block';
+               
+
+              if (currentPageId !== 'login' && currentPageId !== 'signup') {
+                 sidebar.classList.remove('open');
+                	menuBtn.style.display = 'block';
+              }
+            
+            
             }
         });
 
         function showPage(pageId) {
+        		currentPageId = pageId;
+
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
             });
             document.getElementById(pageId).classList.add('active');
             if (pageId !== 'login' && pageId !== 'signup') {
-                toggleSidebar();
+								menuBtn.style.display = 'none';
+								toggleSidebar();
+            }else{
+                menuBtn.style.display = 'none';
             }
             if (pageId === 'user-profile') {
                 updateProfileInfo();
